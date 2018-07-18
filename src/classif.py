@@ -33,18 +33,28 @@ def mse(a, b):
 
 mse_values_N_N = []
 mse_values_N_P = []
+mse_values_N_Nd = []
+mse_values_N_E = []
 for sample in cells_N[0, rand_val]:
     # Normal vs Normal
     for N in cells_N[0]:
         mse_values_N_N.append(mse(sample, N))
-    # Normal vs Edema
+    # Normal vs Paralisia
     for P in cells_P[0]:
         mse_values_N_P.append(mse(sample, P))
     # Normal vs Nodulo
-    # Normal vs Paralisia
+    for Nd in cells_Nd[0]:
+        mse_values_N_Nd.append(mse(sample, Nd))
+    # Normal vs Edema
+    for E in cells_E[0]:
+        mse_values_N_E.append(mse(sample, E))
 
 mse_values_N_N[:] = (value for value in mse_values_N_N if value != 0)
 print("Valores N-N:\n {}".format(mse_values_N_N))
 print("Média N-N:\n {}, Max: {}, Min: {}".format(np.mean(mse_values_N_N), max(mse_values_N_N), min(mse_values_N_N)))
 print("Valores N-P:\n {}".format(mse_values_N_P))
 print("Média N-P:\n {}, Max: {}, Min: {}".format(np.mean(mse_values_N_P), max(mse_values_N_P), min(mse_values_N_P)))
+print("Valores N-Nd:\n {}".format(mse_values_N_Nd))
+print("Média N-Nd:\n {}, Max: {}, Min: {}".format(np.mean(mse_values_N_Nd), max(mse_values_N_Nd), min(mse_values_N_Nd)))
+print("Valores N-E:\n {}".format(mse_values_N_E))
+print("Média N-E:\n {}, Max: {}, Min: {}".format(np.mean(mse_values_N_E), max(mse_values_N_E), min(mse_values_N_E)))
