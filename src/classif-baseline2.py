@@ -3,7 +3,6 @@ import scipy.io as sio
 import numpy as np
 import pickle
 
-
 """
     Distancia entre os sinais utilizados na detecção 
     de patologias da voz
@@ -34,7 +33,8 @@ for sample1 in cells_N[0, rand_val]:
     for i, sample2 in enumerate(cells_Nd[0]):
         for j in range(0, len(sample1)-tam_janela, tam_janela):
             for k in range(0, len(sample2)-tam_janela, tam_janela):
-                dist.append(np.square(np.subtract(sample1[j:j + tam_janela],sample2[k:k + tam_janela])).mean())
+                dist.append(np.square(np.subtract(sample1[j:j + tam_janela],
+                                                  sample2[k:k + tam_janela])).mean())
             dist_N_Nd.append(min(dist))
             dist.clear()
 
@@ -48,7 +48,8 @@ for sample1 in cells_N[0, rand_val]:
     for i, sample2 in enumerate(cells_E[0]):
         for j in range(0, len(sample1)-tam_janela, tam_janela):
             for k in range(0, len(sample2)-tam_janela, tam_janela):
-                dist.append(np.square(np.subtract(sample1[j:j + tam_janela],sample2[k:k + tam_janela])).mean())
+                dist.append(np.square(np.subtract(sample1[j:j + tam_janela],
+                                                  sample2[k:k + tam_janela])).mean())
             dist_N_E.append(min(dist))
             dist.clear()
 
@@ -62,7 +63,8 @@ for sample1 in cells_N[0, rand_val]:
         if not (i in rand_val):
             for j in range(0, len(sample1)-tam_janela, tam_janela):
                 for k in range(0, len(sample2)-tam_janela, tam_janela):
-                    dist.append(np.square(np.subtract(sample1[j:j + tam_janela],sample2[k:k + tam_janela])).mean())
+                    dist.append(np.square(np.subtract(sample1[j:j + tam_janela],
+                                                      sample2[k:k + tam_janela])).mean())
                 dist_N_N.append(min(dist))
                 dist.clear()
 
@@ -76,10 +78,13 @@ for sample1 in cells_N[0, rand_val]:
         if not (i in rand_val):
             for j in range(0, len(sample1)-tam_janela, tam_janela):
                 for k in range(0, len(sample2)-tam_janela, tam_janela):
-                    dist.append(np.square(np.subtract(sample1[j:j + tam_janela],sample2[k:k + tam_janela])).mean())
+                    dist.append(np.square(np.subtract(sample1[j:j + tam_janela],
+                                                      sample2[k:k + tam_janela])).mean())
                 dist_N_P.append(min(dist))
                 dist.clear()
 
 print(len(dist_N_P))
 print("Media %f" % np.mean(dist_N_P))
 pickle.dump(dist_N_P, open('../Files/dist_N_P.obj', 'wb'))
+
+
