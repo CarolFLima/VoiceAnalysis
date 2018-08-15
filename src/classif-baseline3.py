@@ -25,7 +25,7 @@ cells_P = mat_contents['Y_normalizado_P']
 
 # Sinais de controle
 tam_amostra = 5
-rand_val = random.sample(range(0, len(cells_Nd[0])-1), tam_amostra)
+rand_val = random.sample(range(0, len(cells_N[0])-1), tam_amostra)
 
 tam_janela = 12500
 janela = []
@@ -38,17 +38,16 @@ for i, amostra1 in enumerate(cells_P[0]):
     print(type(janela))
     for j in range(10):
         janela = amostra1[inicio_janela[j]:inicio_janela[j]+tam_janela]
-        for k, amostra2 in enumerate(cells_Nd[0, rand_val]):
+        for k, amostra2 in enumerate(cells_N[0, rand_val]):
             dist.clear()
             for inicio in range(0, len(amostra2)-tam_janela, 10):
                 padrao = amostra2[inicio:inicio+tam_janela]
                 diferenca = janela - amostra2[inicio:inicio + tam_janela]
-                # mse = mean_squared_error(janela, amostra2[inicio:inicio + tam_janela])
-                #dist.append(np.square(np.subtract(janela, amostra2[inicio:inicio + tam_janela])).mean())
-                mse = np.sum(np.square(diferenca))
-                dist.append(mse)
+                # Distancia euclidiana calculada aqui
+                dist_euclidiana = np.sqrt(np.sum(np.square(diferenca)))
+                dist.append(dist_euclidiana)
             dist1[j, k] = min(dist)
     dist_jc[i, :] = np.amin(dist1, axis=0)
 
-pickle.dump(dist_jc, open('../Files/dist_Nd_P.obj', 'wb'))
-pickle.dump(janela, open('../Files/janela.obj', 'wb'))
+pickle.dump(dist_jc, open('../Files/dist_N_P.obj', 'wb'))
+# pickle.dump(janela, open('../Files/janela.obj', 'wb'))
