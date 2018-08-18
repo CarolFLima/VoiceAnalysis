@@ -15,32 +15,67 @@ dist_N = pickle.load(open('../Files/dist_N.obj', 'rb'))
 dist_Nd = pickle.load(open('../Files/dist_Nd.obj', 'rb'))
 dist_Ed = pickle.load(open('../Files/dist_Ed.obj', 'rb'))
 dist_P = pickle.load(open('../Files/dist_p.obj', 'rb'))
-print(dist_N.shape)
 
-dist = []
-saida_original = ["paralisia", "paralisia", "paralisia", "paralisia", "paralisia",
-                  "edema", "edema", "edema", "edema", "edema",
-                  "nodulo", "nodulo", "nodulo", "nodulo", "nodulo",
-                  "normal", "normal", "normal", "normal", "normal"]
+# saida_original = ["paralisia", "paralisia", "paralisia", "paralisia", "paralisia",
+#                   "edema", "edema", "edema", "edema", "edema",
+#                   "nodulo", "nodulo", "nodulo", "nodulo", "nodulo",
+#                   "normal", "normal", "normal", "normal", "normal"]
+
+saida_original = []
 saida_class = []
-for i in range(20):
-    dist.append(np.amin(dist_P[:, i]))
-    dist.append(np.amin(dist_Ed[:, i]))
-    dist.append(np.amin(dist_Nd[:, i]))
-    dist.append(np.amin(dist_N[:, i]))
 
-    a = dist.index(np.amin(dist))
-    print(a)
-    if a == 0:
+for i in range(len(dist_P[:, 0])):
+    saida_original.append("paralisia")
+for i in range(len(dist_Ed[:, 0])):
+    saida_original.append("edema")
+for i in range(len(dist_Nd[:, 0])):
+    saida_original.append("nodulo")
+for i in range(len(dist_N[:, 0])):
+    saida_original.append("normal")
+
+for i in range(len(dist_P[:, 0])):
+    a = dist_P[i, :].tolist().index(np.amin(dist_P[i, :]))
+    if a < 5:
         saida_class.append("paralisia")
-    elif a == 1:
+    elif (a > 4) and (a < 9):
         saida_class.append("edema")
-    elif a == 2:
+    elif (a > 9) and (a < 15):
         saida_class.append("nodulo")
-    elif a == 3:
+    elif (a > 14) and (a < 20):
         saida_class.append("normal")
 
-    dist.clear()
+for i in range(len(dist_Ed[:, 0])):
+    a = dist_Ed[i, :].tolist().index(np.amin(dist_Ed[i, :]))
+    if a < 5:
+        saida_class.append("paralisia")
+    elif (a > 4) and (a < 9):
+        saida_class.append("edema")
+    elif (a > 9) and (a < 15):
+        saida_class.append("nodulo")
+    elif (a > 14) and (a < 20):
+        saida_class.append("normal")
 
-conf = confusion_matrix(saida_original, saida_class, labels=["paralisia", "edema", "nodulo", "normal"])
+for i in range(len(dist_Nd[:, 0])):
+    a = dist_Nd[i, :].tolist().index(np.amin(dist_Nd[i, :]))
+    if a < 5:
+        saida_class.append("paralisia")
+    elif (a > 4) and (a < 9):
+        saida_class.append("edema")
+    elif (a > 9) and (a < 15):
+        saida_class.append("nodulo")
+    elif (a > 14) and (a < 20):
+        saida_class.append("normal")
+
+for i in range(len(dist_N[:, 0])):
+    a = dist_N[i, :].tolist().index(np.amin(dist_N[i, :]))
+    if a < 5:
+        saida_class.append("paralisia")
+    elif (a > 4) and (a < 9):
+        saida_class.append("edema")
+    elif (a > 9) and (a < 15):
+        saida_class.append("nodulo")
+    elif (a > 14) and (a < 20):
+        saida_class.append("normal")
+
+conf = confusion_matrix(saida_original, saida_class, labels=["normal", "edema", "nodulo", "paralisia"])
 print(conf)
