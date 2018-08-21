@@ -27,10 +27,6 @@ sigma = 0.1
 
 # Sinais de controle
 tam_amostra = 5
-# rand_val_P = random.sample(range(0, len(cells_P[0])-1), tam_amostra)
-# rand_val_Ed = random.sample(range(0, len(cells_Ed[0])-1), tam_amostra)
-# rand_val_Nd = random.sample(range(0, len(cells_Nd[0])-1), tam_amostra)
-# rand_val_N = random.sample(range(0, len(cells_N[0])-1), tam_amostra)
 TAM_P = 52
 TAM_N = 53
 TAM_ND = 18
@@ -43,11 +39,8 @@ rand_val_N = [11, 45, 47, 15, 37]
 
 tam_janela = 12500
 janela = []
-dist = []
 similar = []
-dist1 = np.zeros((10, tam_amostra*4))
 simi1 = np.zeros((10, tam_amostra*4))
-dist_jc = np.zeros((TAM_ED-tam_amostra, tam_amostra*4))
 simi_jc = np.zeros((TAM_ED-tam_amostra, tam_amostra*4))
 
 # Juntar todos os sinais de controle em um array
@@ -72,21 +65,15 @@ for i, amostra1 in enumerate(testes_Ed):
     for j in range(10):
         janela = amostra1[inicio_janela[j]:inicio_janela[j]+tam_janela]
         for k, amostra2 in enumerate(cells_controle):
-            dist.clear()
             similar.clear()
             for inicio in range(0, len(amostra2)-tam_janela):
                 padrao = amostra2[inicio:inicio+tam_janela]
                 diferenca = janela - amostra2[inicio:inicio + tam_janela]
-                # Distancia euclidiana calculada aqui
-                dist_euclidiana = np.sqrt(np.sum(np.square(diferenca)))
+                # Correntropia calculada aqui
                 correntropia = 1/(np.sqrt(2*np.pi)*sigma*tam_janela)*np.sum(np.exp(-np.square(diferenca)/(2*sigma)))
-                dist.append(dist_euclidiana)
                 similar.append(correntropia)
-            dist1[j, k] = min(dist)
             simi1[j, k] = max(similar)
-    dist_jc[i, :] = np.amin(dist1, axis=0)
-    simi_jc[i, :] = np.amax(dist1, axis=0)
+    simi_jc[i, :] = np.amax(simi1, axis=0)
 
-pickle.dump(dist_jc, open('../Files/dist_Ed.obj', 'wb'))
 pickle.dump(simi_jc, open('../Files/simi_Ed.obj', 'wb'))
 # pickle.dump(janela, open('../Files/janela.obj', 'wb'))
