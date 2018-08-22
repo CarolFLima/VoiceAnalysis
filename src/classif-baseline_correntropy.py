@@ -1,3 +1,5 @@
+# coding=utf-8
+
 import random
 import scipy.io as sio
 import numpy as np
@@ -41,7 +43,7 @@ tam_janela = 12500
 janela = []
 similar = []
 simi1 = np.zeros((10, tam_amostra*4))
-simi_jc = np.zeros((TAM_ED-tam_amostra, tam_amostra*4))
+simi_jc = np.zeros((TAM_P-tam_amostra, tam_amostra*4))
 
 # Juntar todos os sinais de controle em um array
 cells_controle = []
@@ -60,7 +62,8 @@ testes_Ed = np.delete(cells_Ed[0], rand_val_Ed)
 testes_Nd = np.delete(cells_Nd[0], rand_val_Nd)
 testes_N = np.delete(cells_N[0], rand_val_N)
 
-for i, amostra1 in enumerate(testes_Ed):
+for i, amostra1 in enumerate(testes_P):
+    print(i)
     inicio_janela = random.sample(range(0, len(amostra1)-tam_janela-1), 10)
     for j in range(10):
         janela = amostra1[inicio_janela[j]:inicio_janela[j]+tam_janela]
@@ -75,5 +78,5 @@ for i, amostra1 in enumerate(testes_Ed):
             simi1[j, k] = max(similar)
     simi_jc[i, :] = np.amax(simi1, axis=0)
 
-pickle.dump(simi_jc, open('../Files/simi_Ed.obj', 'wb'))
+pickle.dump(simi_jc, open('../Files/simi_P.obj', 'wb'))
 # pickle.dump(janela, open('../Files/janela.obj', 'wb'))
